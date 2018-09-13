@@ -24,7 +24,17 @@ class Wx_s_curriculumDao implements Wx_s_curriculumInterface
     public function wx_s_curriculumSelect($get)
     {
         // TODO :  Wx_s_curriculumModel 模型
-        $res = Wx_s_curriculumModel::where(
+        $res = Wx_s_curriculumModel::field(
+            'user_tel,school_name,course_name,course_num'
+        )->leftJoin(
+            config('v1_tableName.I_Data_School'),
+            config('v1_tableName.I_CurriclumLists').'.school_id = '.
+            config('v1_tableName.I_Data_School').'.school_id'
+        )->leftJoin(
+            config('v1_tableName.I_Data_Course'),
+            config('v1_tableName.I_CurriclumLists').'.course_id = '.
+            config('v1_tableName.I_Data_Course').'.course_id'
+        )->where(
             'user_tel',$get['UserPhone']
         )->limit(
             $get['ListNumber'],'12'

@@ -11,5 +11,8 @@
 return [
     // 个人课程信息表
     'I_CurriclumLists' => 'data_users_course',
-    // 关联学校表
+    // 学校表
+    'I_Data_School'    => 'data_school',
+    // 课程表
+    'I_Data_Course'    => 'data_course',
 ];
