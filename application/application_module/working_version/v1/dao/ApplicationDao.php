@@ -12,7 +12,9 @@ use app\application_module\working_version\v1\model\ApplicationModel;
 use app\application_module\working_version\v1\model\TeacherModel;
 use app\application_module\working_version\v1\model\UserModel;
 use app\application_module\working_version\v1\model\StudentModel;
-
+use app\application_module\working_version\v1\model\UserschoolModel;
+use app\application_module\working_version\v1\model\UserscourseModel;
+use app\application_module\working_version\v1\model\ChoolUserSelModel;
 class ApplicationDao
 {
     /**
@@ -106,21 +108,128 @@ class ApplicationDao
     /**
      * 名  称 : student()
      * 功  能 : 声明：学生列表
-     * 输  入 : (string) $student => '学生ID';
+     * 输  入 : (string) $school => '学校ID';
      * 输  出 : [ 'msg'=>'success' , 'data'=>true ]
      * 创  建 : 2018/09/12 10:03
      */
-    public function studentSel($student='')
+    public function studentSel($school)
     {
-        $Student = new StudentModel();
+        $Student = new UserschoolModel();
+        $list = $Student->field('student_id')->where('school_id',$school)->select();
 
-        if($Student == ''){
-            $list = $Student->select();
+        $res = StudentModel::where('student_id',$list)->select();
+        if(!$res){
+            return returnData('error',false);
+        }
+
+        // 返回数据
+        return returnData('success',true);
+    }
+
+    /**
+     * 名  称 : modifyAdd()
+     * 功  能 : 添加用户课程
+     * 变  量 : --------------------------------------
+     * 输  入 : (string) $tel => '用户手机号';
+     * 输  入 : (string) $school => '学校主键';
+     * 输  入 : (string) $course => '课程名称';
+     * 输  入 : (string) $num => '课程数量';
+     * 输  出 : {"errNum":0,"retMsg":"修改成功","retData":true}
+     * 创  建 : 2018/09/12 10:03
+     */
+    public function modifySel($tel,$school,$course,$num)
+    {
+        $Userscourse = new UserscourseModel();
+
+        // 进行修改
+        $res = $Userscourse->save([
+            $Userscourse->school_id    = $school,
+            $Userscourse->course_id    = $course,
+            $Userscourse->course_num    = $num
+        ],['user_tel'=>$tel]);
+        // 验证
+        if(!$res){
+            return returnData('error',false);
+        }
+        // 返回数据
+        return returnData('success',true);
+
+    }
+
+
+    /**
+     * 名  称 : modifyAdd()
+     * 功  能 : 修改用户课程
+     * 变  量 : --------------------------------------
+     * 输  入 : (string) $tel => '用户手机号';
+     * 输  入 : (string) $school => '学校主键';
+     * 输  入 : (string) $course => '课程名称';
+     * 输  入 : (string) $num => '课程数量';
+     * 输  出 : {"errNum":0,"retMsg":"添加成功","retData":true}
+     * 创  建 : 2018/09/12 10:03
+     */
+    public function modifyAdd($tel,$school,$course,$num)
+    {
+        $Userscourse = new UserscourseModel();
+
+        $Userscourse->user_tel = $tel;
+        $Userscourse->school_id = $school;
+        $Userscourse->course_id = $course;
+        $Userscourse->course_num = $num;
+        // 保存数据
+        $res = $Userscourse->save();
+        if(!$res) return returnData('error');
+        // 返回数据
+        return returnData('success',true);
+
+    }
+
+
+
+    /**
+     * 名  称 : modifySeluse()
+     * 功  能 : 搜索用户
+     * 变  量 : --------------------------------------
+     * 输  入 : (string) $userstel => '电话号';
+     * 输  出 : {"errNum":0,"retMsg":"查询成功","retData":true}
+     * 创  建 : 2018/09/12 10:03
+     */
+    public function userSel($userstel='')
+    {
+        $UserModel = new UserModel();
+
+        if($userstel == ''){
+            $list = $UserModel->select();
         }else{
-            $list = $Student->where('student_id',$student)->find();
+            $list = $UserModel->where('users_tel',$userstel)->find();
         }
 
         if(!$list){
+            return returnData('error',false);
+        }
+
+        // 返回数据
+        return returnData('success',true);
+    }
+
+
+
+    /**
+     * 名  称 : signSel()
+     * 功  能 : 查询学校学生签到信息
+     * 变  量 : --------------------------------------
+     * 输  入 : (string) $school => '学校ID';
+     * 输  出 : {"errNum":0,"retMsg":"查询成功","retData":true}
+     * 创  建 : 2018/09/12 10:03
+     */
+    public function signSel($school)
+    {
+        $Chool = new ChoolUserSelModel();
+
+        $list = $Chool->field('student_id')->where('school_id',$school)->select();
+
+        $res = StudentModel::where('student_id',$list)->select();
+        if(!$res){
             return returnData('error',false);
         }
 
