@@ -67,3 +67,34 @@ Route::post(
     'v1/application_module/modifySel',
     'application_module/v1.controller.ApplicationController/modifySel'
 );
+
+/**
+ * 路由名称: modifyAdd
+ * 传值方式: POST
+ * 路由功能: 添加用户课程
+ */
+Route::post(
+    'v1/application_module/modifyAdd',
+    'application_module/v1.controller.ApplicationController/modifyAdd'
+);
+
+/**
+ * 路由名称: userSel
+ * 传值方式: POST
+ * 路由功能: 搜索用户
+ */
+Route::post(
+    'v1/application_module/userSel',
+    'application_module/v1.controller.ApplicationController/userSel'
+);
+
+
+/**
+ * 路由名称: signSel
+ * 传值方式: POST
+ * 路由功能: 查询学校学生签到信息
+ */
+Route::post(
+    'v1/application_module/signSel',
+    'application_module/v1.controller.ApplicationController/signSel'
+);

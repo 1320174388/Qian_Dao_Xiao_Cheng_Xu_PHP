@@ -100,18 +100,17 @@ class ApplicationController extends Controller
      * 名  称 : studentSel()
      * 功  能 : 学生列表
      * 变  量 : --------------------------------------
-     * 输  入 : (string) $teacherid => '学生ID';
+     * 输  入 : (string) $school => '学校ID';
      * 输  出 : {"errNum":0,"retMsg":"查询成功","retData":true}
      * 创  建 : 2018/09/12 10:03
      */
     public function studentSel(Request $request)
     {
         // 获取传值
-        $student  = $request->post('student_id');
+        $school  = $request->post('school_id');
         // 引入Service逻辑层代码
-        $res = (new ApplicationService())->studentSel($student);
-
-        return \RSD::wxReponse($res,'S','请求成功',$res['data']);
+        $res = (new ApplicationService())->studentSel($school);
+        return \RSD::wxReponse($res,'S','查找成功',$res['data']);
     }
 
 
@@ -119,18 +118,87 @@ class ApplicationController extends Controller
      * 名  称 : modifySel()
      * 功  能 : 修改用户课程
      * 变  量 : --------------------------------------
-     * 输  入 : (string) $teacherid => '学生ID';
-     * 输  出 : {"errNum":0,"retMsg":"查询成功","retData":true}
+     * 输  入 : (string) $teacherid => '用户手机号';
+     * 输  入 : (string) $teacherid => '学校主键';
+     * 输  入 : (string) $teacherid => '课程名称';
+     * 输  入 : (string) $teacherid => '课程数量';
+     * 输  出 : {"errNum":0,"retMsg":"修改成功","retData":true}
      * 创  建 : 2018/09/12 10:03
      */
     public function modifySel(Request $request)
     {
         // 获取传值
-        $student  = $request->post('student_id');
+        $tel  = $request->post('user_tel');
+        $school  = $request->post('school_id');
+        $course  = $request->post('course_id');
+        $num  = $request->post('course_num');
         // 引入Service逻辑层代码
-        $res = (new ApplicationService())->studentSel($student);
+        $res = (new ApplicationService())->modifySel($tel,$school,$course,$num);
 
-        return \RSD::wxReponse($res,'S','请求成功',$res['data']);
+        return \RSD::wxReponse($res,'S','修改成功',$res['data']);
+    }
+
+
+    /**输入：
+     * 名  称 : modifyAdd()
+     * 功  能 : 添加用户课程
+     * 变  量 : --------------------------------------
+     * 输  入 : (string) $teacherid => '用户手机号';
+     * 输  入 : (string) $teacherid => '学校主键';
+     * 输  入 : (string) $teacherid => '课程名称';
+     * 输  入 : (string) $teacherid => '课程数量';
+     * 输  出 : {"errNum":0,"retMsg":"添加成功","retData":true}
+     * 创  建 : 2018/09/12 10:03
+     */
+    public function modifyAdd(Request $request)
+    {
+        // 获取传值
+        $tel  = $request->post('user_tel');
+        $school  = $request->post('school_id');
+        $course  = $request->post('course_id');
+        $num  = $request->post('course_num');
+        // 引入Service逻辑层代码
+        $res = (new ApplicationService())->modifyAdd($tel,$school,$course,$num);
+
+        return \RSD::wxReponse($res,'S','添加成功',$res['data']);
+    }
+
+
+    /**
+     * 名  称 : userSel()
+     * 功  能 : 搜索用户
+     * 变  量 : --------------------------------------
+     * 输  入 : (string) $userstel => '电话号';
+     * 输  出 : {"errNum":0,"retMsg":"查询成功","retData":true}
+     * 创  建 : 2018/09/12 10:03
+     */
+    public function userSel(Request $request)
+    {
+        // 获取传值
+        $userstel  = $request->post('users_tel');
+        // 引入Service逻辑层代码
+        $res = (new ApplicationService())->userSel($userstel);
+
+        return \RSD::wxReponse($res,'S','查询成功',$res['data']);
+    }
+
+
+    /**
+     * 名  称 : signSel()
+     * 功  能 : 查询学校学生签到信息
+     * 变  量 : --------------------------------------
+     * 输  入 : (string) $school => '学校ID';
+     * 输  出 : {"errNum":0,"retMsg":"查询成功","retData":true}
+     * 创  建 : 2018/09/12 10:03
+     */
+    public function signSel(Request $request)
+    {
+        // 获取传值
+        $school  = $request->post('school_id');
+        // 引入Service逻辑层代码
+        $res = (new ApplicationService())->signSel($school);
+
+        return \RSD::wxReponse($res,'S','查询成功',$res['data']);
     }
 
 

@@ -13,5 +13,8 @@ return [
     'ApplicationSchool' => 'data_school',
     'Teacher' => 'data_teacher',
     'Users' => 'data_users',
-    'Student' => 'data_student'
+    'Student' => 'data_student',
+    'UserscourseModel' => 'data_users_course',
+    'UserschoolModel' => 'data_school_student',
+    'choolUserSel' => 'data_sign'
 ];
