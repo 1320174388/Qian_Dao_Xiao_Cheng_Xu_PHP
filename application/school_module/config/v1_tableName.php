@@ -10,7 +10,17 @@
 
 return [
     // 学校表
-    'schoolTable'   => 'data_school',
-    'usersTable'    => 'data_users',
-    'teacherTable'  => 'data_teacher'
+    'schoolTable'        => 'data_school',
+    // 用户信息表
+    'usersTable'         => 'data_users',
+    // 教师表
+    'teacherTable'       => 'data_teacher',
+    // 课程表
+    'courseTable'        => 'data_course',
+    // 学校学生关联表
+    'schoolStudentTable' => 'data_school_student',
+    // 学生表
+    'studentTable'       => 'data_student',
+    // 课时表
+    'periodTable'        => 'data_period'
 ];

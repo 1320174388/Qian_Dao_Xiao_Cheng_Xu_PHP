@@ -88,12 +88,190 @@ class SchoolController extends Controller
         return \RSD::wxReponse($res,'S','请求成功');
     }
     /**
-     * 名  称 : teacherStatePut()
+     * 名  称 : schoolCoursePost()
      * 功  能 : 学校添加课程
      * 变  量 : --------------------------------------
-     * 输  入 : (int)     $teacher_id        =>  教师主键  【必填】
-     * 输  入 : (int)     $teacher_state    =>  申请状态  【必填】
+     * 输  入 : (int)     $school_id          =>  学校主键  【必填】
+     * 输  入 : (string)     $course_name     =>  课程名称  【必填】
      * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":"请求数据"}
      * 创  建 : 2018/09/12 17:22
      */
+    public function schoolCoursePost(\think\Request $request)
+    {
+
+        // 实例化Service层逻辑类
+        $teacherStateService = new SchoolService();
+
+        // 获取传入参数
+        $post = $request->post();
+
+        // 执行Service逻辑
+        $res = $teacherStateService->schoolCourseAdd($post);
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S','请求成功');
+    }
+    /**
+     * 名  称 : schoolCoursePut()
+     * 功  能 : 修改学校课程
+     * 变  量 : --------------------------------------
+     * 输  入 : (int)     $course_id       =>  学校主键  【必填】
+     * 输  入 : (int)     $school_id       =>  学校主键  【必填】
+     * 输  入 : (string)  $course_name     =>  课程名称  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":"请求数据"}
+     * 创  建 : 2018/09/12 17:22
+     */
+    public function schoolCoursePut(\think\Request $request)
+    {
+
+        // 实例化Service层逻辑类
+        $teacherStateService = new SchoolService();
+
+        // 获取传入参数
+        $put = $request->put();
+
+        // 执行Service逻辑
+        $res = $teacherStateService->schoolCourseEdit($put);
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S','请求成功');
+    }
+    /**
+     * 名  称 : schoolCourseDelete()
+     * 功  能 : 删除学校课程接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (int)    $course_id        =>  课程主键  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/09/13 14:12
+     */
+    public function schoolCourseDelete(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $schoolCourseService = new SchoolService();
+
+        // 获取传入参数
+        $delete = $request->delete();
+
+        // 执行Service逻辑
+        $res = $schoolCourseService->schoolCourseDel($delete);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S');
+    }
+    /**
+     * 名  称 : schoolCourseGet()
+     * 功  能 : 获取学校课程接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (int)    $school_id        =>  学校主键  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":"请求数据"}
+     * 创  建 : 2018/09/13 14:56
+     */
+    public function schoolCourseGet(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $schoolCourseService = new SchoolService();
+
+        // 获取传入参数
+        $get = $request->get();
+
+        // 执行Service逻辑
+        $res = $schoolCourseService->schoolCourseShow($get);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S','请求成功');
+    }
+    /**
+     * 名  称 : schoolStudentGet()
+     * 功  能 : 获取学校学生信息接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (int)    $school_id        =>  学校主键  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":"请求数据"}
+     * 创  建 : 2018/09/13 15:21
+     */
+    public function schoolStudentGet(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $schoolStudentService = new SchoolService();
+
+        // 获取传入参数
+        $get = $request->get();
+
+        // 执行Service逻辑
+        $res = $schoolStudentService->schoolStudentShow($get);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S','请求成功');
+    }
+    /**
+     * 名  称 : periodPost()
+     * 功  能 : 添加课程课时接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (int)    $course_id        =>  课程主键  【必填】
+     * 输  入 : (int)    $teacher_id       =>  教师主键  【必填】
+     * 输  入 : (string) $start_time       =>  开始时间  【必填】
+     * 输  入 : (string) $end_time         =>  结束时间  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/09/13 17:53
+     */
+    public function periodPost(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $periodService = new SchoolService();
+
+        // 获取传入参数
+        $post = $request->post();
+
+        // 执行Service逻辑
+        $res = $periodService->periodAdd($post);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S');
+    }
+    /**
+     * 名  称 : periodPut()
+     * 功  能 : 修改课程课时接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (int)    $period_id        =>  课时主键  【必填】
+     * 输  入 : (int)    $course_id        =>  课程主键  【必填】
+     * 输  入 : (int)    $teacher_id       =>  教师主键  【必填】
+     * 输  入 : (string) $start_time       =>  开始时间  【必填】
+     * 输  入 : (string) $end_time         =>  结束时间  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/09/13 19:25
+     */
+    public function periodPut(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $periodService = new SchoolService();
+
+        // 获取传入参数
+        $put = $request->put();
+
+        // 执行Service逻辑
+        $res = $periodService->periodEdit($put);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S');
+    }
+    /**
+     * 名  称 : periodDelete()
+     * 功  能 : 删除课程课时接口
+     * 变  量 : --------------------------------------
+     * 输  入 : (int)    $period_id        =>  课时主键  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/09/13 20:01
+     */
+    public function periodDelete(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $periodService = new SchoolService();
+
+        // 获取传入参数
+        $delete = $request->delete();
+
+        // 执行Service逻辑
+        $res = $periodService->periodDel($delete);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S');
+    }
+
 }

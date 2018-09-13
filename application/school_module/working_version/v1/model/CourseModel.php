@@ -1,25 +1,25 @@
 <?php
 /**
  *  版权声明 :  地老天荒科技有限公司
- *  文件名称 :  SchoolModel.php
+ *  文件名称 :  CourseModel.php
  *  创 建 者 :  Feng TianShui
  *  创建日期 :  2018/09/12 09:50
- *  文件描述 :  学校模型层
+ *  文件描述 :  课程表模型
  *  历史记录 :  -----------------------
  */
 namespace app\school_module\working_version\v1\model;
 use think\Model;
 
-class SchoolModel extends Model
+class CourseModel extends Model
 {
     // 设置当前模型对应的完整数据表名称
     protected $table = '';
 
     // 设置当前模型对应数据表的主键
-    protected $pk = 'school_id';
+    protected $pk = 'course_id';
 
     //设置时间字段名称
-    protected $createTime = 'school_time';
+    protected $createTime = 'course_time';
 
     //开启自动写入时间戳
     protected $autoWriteTimestamp = true;
@@ -27,14 +27,6 @@ class SchoolModel extends Model
     // 加载配置数据表名
     protected function initialize()
     {
-        $this->table = config('v1_tableName.schoolTable');
-    }
-    //多对多 关联 学生表
-    public function roles()
-    {
-        return $this->belongsToMany('StudentModel',
-                                    config('v1_tableName.schoolStudentTable'),
-                                    'student_id',
-                                    'school_id');
+        $this->table = config('v1_tableName.courseTable');
     }
 }
