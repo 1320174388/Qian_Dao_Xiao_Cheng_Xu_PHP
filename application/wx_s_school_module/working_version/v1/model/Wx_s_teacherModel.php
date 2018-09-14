@@ -7,7 +7,7 @@
  *  文件描述 :  教师模块模型层
  *  历史记录 :  -----------------------
  */
-namespace app\wx_s_teacher_module\working_version\v1\model;
+namespace app\wx_s_school_module\working_version\v1\model;
 use think\Model;
 
 class Wx_s_teacherModel extends Model
