@@ -13,12 +13,4 @@ return [
     'I_Teacher_Lists' => 'data_teacher',
     // 学校表
     'I_School_Lists'  => 'data_school',
-    // 课时信息表
-    'I_Period_Lists'  => 'data_period',
-    // 课程表
-    'I_Course_Lists'  => 'data_course',
-    // 学生表
-    'I_Student_Lists' => 'data_student',
-    // 签到表
-    'I_Sign_Lists'    => 'data_sign',
 ];

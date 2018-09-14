@@ -15,15 +15,28 @@ interface Wx_s_teacherInterface
      * 名  称 : wx_s_teacherCreate()
      * 功  能 : 声明:教师申请接口数据处理
      * 变  量 : --------------------------------------
-     * 输  入 : (String)$post['UserPhone'] => '用户手机号';
-     * 输  入 : ( File )$post['TeachFile'] => '头像URL';
-     * 输  入 : (String)$post['TeachName'] => '教师姓名';
-     * 输  入 : ( Int ) $post['TeachSex']  => '教师性别';
-     * 输  入 : ( Int ) $post['TeachAge']  => '教师年龄';
-     * 输  入 : (String)$post['TeachBirT'] => '教师生日';
-     * 输  入 : (String)$post['TeachTime'] => '申请时间';
+     * 输  入 : (String)$post['UserPhone']   => '用户手机号';
+     * 输  入 : ( Int ) $post['SchoolId']    => '学校ID';
+     * 输  入 : ( File )$post['TeachFile']   => '头像URL';
+     * 输  入 : (String)$post['TeachName']   => '教师姓名';
+     * 输  入 : ( Int ) $post['TeachSex']    => '教师性别';
+     * 输  入 : ( Int ) $post['TeachAge']    => '教师年龄';
+     * 输  入 : (String)$post['TeachBirT']   => '教师生日';
+     * 输  入 : (String)$post['TeachTime']   => '申请时间';
+     * 输  入 : (String)$post['TeachFormId'] => '申请时间';
      * 输  出 : ['msg'=>'success','data'=>'提示信息']
      * 创  建 : 2018/09/13 20:10
      */
     public function wx_s_teacherCreate($post);
+
+    /**
+     * 名  称 : wx_s_teacherSelect()
+     * 功  能 : 声明:获取教师授课及课时接口数据处理
+     * 变  量 : --------------------------------------
+     * 输  入 : (String)$get['UserPhone'] => '用户手机号';
+     * 输  入 : ( int ) $get['SchoolID']  => '学校ID';
+     * 输  出 : ['msg'=>'success','data'=>'返回数据']
+     * 创  建 : 2018/09/14 15:29
+     */
+    public function wx_s_teacherSelect($get);
 }
