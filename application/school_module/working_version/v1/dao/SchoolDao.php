@@ -182,19 +182,7 @@ class SchoolDao implements SchoolInterface
     {
         //Course 模型
         $course = new CourseModel();
-        //查询课程是否删除
-        $name = $course->where(['school_id'=>$post['school_id'],
-            'course_name'=>$post['course_name'],
-            'course_status'=> 0])
-            ->find();
-        //更改状态
-        if($name){
-            $res = $course->where(['school_id'=>$post['school_id'],
-                'course_name'=>$post['course_name'],
-                'course_status'=> 0])
-                ->update(['course_status'=> 1]);
-            return \RSD::wxReponse($res,'M','添加成功','添加失败');
-        }
+
         //查询课程名称
         $courseName = $course->where(['school_id'=>$post['school_id'],
                                       'course_name'=>$post['course_name'],
