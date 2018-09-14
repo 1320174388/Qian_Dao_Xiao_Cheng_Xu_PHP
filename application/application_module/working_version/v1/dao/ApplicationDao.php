@@ -14,7 +14,6 @@ use app\application_module\working_version\v1\model\UserModel;
 use app\application_module\working_version\v1\model\StudentModel;
 use app\application_module\working_version\v1\model\UserschoolModel;
 use app\application_module\working_version\v1\model\UserscourseModel;
-use app\application_module\working_version\v1\model\ChoolUserSelModel;
 class ApplicationDao
 {
     /**
@@ -64,7 +63,6 @@ class ApplicationDao
         return returnData('success',true);
     }
 
-
     /**
     * 名  称 : applicationUpd()
     * 功  能 : 声明：教师列表
@@ -74,15 +72,19 @@ class ApplicationDao
     */
     public function tecacherSel($schoolid)
     {
-    $TeacherModel = new TeacherModel();
+        $TeacherModel = new TeacherModel();
+        if($TeacherModel == ''){
+            $list = $TeacherModel->select();
+        }else{
+            $list = $TeacherModel->where('teacher_id',$schoolid)->find();
+        }
 
-    $list = $TeacherModel->field('users_tel')->where('school_id',$schoolid)->select();
+        if(!$list){
+            return returnData('error',false);
+        }
 
-    $res = UserModel::where('users_tel',$list)->select();
-//     验证数据
-    if(!$res) return returnData('error');
-    // 返回数据
-    return returnData('success',$list);
+        // 返回数据
+        return returnData('success',true);
     }
 
 
@@ -224,16 +226,30 @@ class ApplicationDao
      */
     public function signSel($school)
     {
-        $Chool = new ChoolUserSelModel();
-
-        $list = $Chool->field('student_id')->where('school_id',$school)->select();
-
-        $res = StudentModel::where('student_id',$list)->select();
-        if(!$res){
-            return returnData('error',false);
-        }
-
+        $res = ApplicationModel::field(
+            config('v1_tableName.Student').'.student_name,'.
+            config('v1_tableName.Student').'.student_sex,'.
+            config('v1_tableName.Student').'.student_age,'.
+            config('v1_tableName.Student').'.student_nexus,'.
+            config('v1_tableName.Student').'.users_tel,'.
+            config('v1_tableName.choolUserSel').'.sign_time'
+        )->leftJoin(
+            config('v1_tableName.choolUserSel'),
+            config('v1_tableName.choolUserSel').'.school_id = ' .
+            config('v1_tableName.ApplicationSchool').'.school_id'
+        )->leftJoin(
+            config('v1_tableName.Student'),
+            config('v1_tableName.Student').'.student_id = ' .
+            config('v1_tableName.choolUserSel').'.student_id'
+        )->where(
+            config('v1_tableName.ApplicationSchool').'.school_id',
+            $school
+        )
+//            ->limit(
+//            $school['SigeNumb'],12
+//        )
+            ->select()->toArray();
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res);
     }
 }

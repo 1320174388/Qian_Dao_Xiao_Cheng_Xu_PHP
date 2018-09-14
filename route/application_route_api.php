@@ -9,7 +9,7 @@
  */
 
 /**
- * 路由名称: application_post
+ * 路由名称: application_Sel
  * 传值方式: POST
  * 路由功能: 学校申请列表接口
  */
