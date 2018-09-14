@@ -16,5 +16,6 @@ return [
     'Student' => 'data_student',
     'UserscourseModel' => 'data_users_course',
     'UserschoolModel' => 'data_school_student',
-    'choolUserSel' => 'data_sign'
+    'choolUserSel' => 'data_sign',
+    'periodSel' => 'data_period'
 ];

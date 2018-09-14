@@ -174,7 +174,7 @@ class ApplicationService
         $res=(new ApplicationDao)->signSel($school);
         if($res['msg']=='error') return returnData('error','查询失败');
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res['data']);
 
     }
 }

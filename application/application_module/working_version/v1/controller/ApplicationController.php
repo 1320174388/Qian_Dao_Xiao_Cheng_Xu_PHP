@@ -66,7 +66,7 @@ class ApplicationController extends Controller
     public function tecacherSel(Request $request)
     {
         // 获取传值
-        $schoolid  = $request->post('school_id');
+        $schoolid  = $request->post('teacher_id');
         // 引入Service逻辑层代码
         $res = (new ApplicationService())->tecacherSel($schoolid);
         if($res['msg']=='error') return returnResponse(3,$res['data']);
@@ -198,7 +198,7 @@ class ApplicationController extends Controller
         // 引入Service逻辑层代码
         $res = (new ApplicationService())->signSel($school);
 
-        return \RSD::wxReponse($res,'S','查询成功',$res['data']);
+        return \RSD::wxReponse($res,'S','请求成功','查询成功');
     }
 
 
