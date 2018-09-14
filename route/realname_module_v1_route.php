@@ -15,3 +15,11 @@ Route::post(
     ':v/realname_module/realname_route',
     'realname_module/:v.controller.RealnameController/realnamePost'
 );
+/**
+ * 传值方式 : GET
+ * 路由功能 : 查询用户实名制状态
+ */
+Route::get(
+    ':v/realname_module/realname_route',
+    'realname_module/:v.controller.RealnameController/realnameGet'
+);

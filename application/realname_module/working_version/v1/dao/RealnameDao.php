@@ -31,5 +31,22 @@ class RealnameDao implements RealnameInterface
                         ['users_tel'=>$post['users_tel']]);
         return \RSD::wxReponse($res,'M','认证成功','认证失败');
     }
+    /**
+     * 名  称 : realnameselect()
+     * 功  能 : 查询实名制状态
+     * 变  量 : --------------------------------------
+     * 输  入 : (string)    $users_tel        =>  用户手机号  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/09/15 00:06
+     */
+    public function realnameselect($get)
+    {
+        // UsersModel 模型
+        $users = new UsersModel();
+        //执行查询
+      $res = $users->where('users_tel',$get['users_tel'])
+                ->field('users_state')->find();
+        return \RSD::wxReponse($res,'M',$res['users_state'],'查询异常');
 
+    }
 }

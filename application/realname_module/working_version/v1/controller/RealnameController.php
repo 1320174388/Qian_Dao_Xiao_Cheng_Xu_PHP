@@ -36,5 +36,26 @@ class RealnameController extends Controller
         // 处理函数返回值
         return \RSD::wxReponse($res,'S');
     }
+    /**
+     * 名  称 : realnameGet()
+     * 功  能 : 查询实名制状态
+     * 变  量 : --------------------------------------
+     * 输  入 : (string)    $users_tel        =>  用户手机号  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/09/15 00:06
+     */
+    public function realnameGet(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $realnameService = new RealnameService();
 
+        // 获取传入参数
+        $get = $request->get();
+
+        // 执行Service逻辑
+        $res = $realnameService->realnameShow($get);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S');
+    }
 }

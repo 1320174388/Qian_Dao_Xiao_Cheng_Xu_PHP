@@ -71,5 +71,31 @@ class RealnameService
           return returnData('error','请求失败');
         }
     }
+    /**
+     * 名  称 : realnameShow()
+     * 功  能 : 查询实名制状态
+     * 变  量 : --------------------------------------
+     * 输  入 : (string)    $users_tel        =>  用户手机号  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/09/15 00:06
+     */
+    public function realnameShow($get)
+    {
+        //验证数据
+        $validate = new \think\Validate([
+            'users_tel'    => 'require',
+        ],[
+            'users_tel.require'    => '缺少users_tel参数',
+        ]);
+        if (!$validate->check($get)) {
+            return returnData('error',$validate->getError());
+        }
 
+        // 实例化Dao层数据类
+        $realnameDao = new RealnameDao();
+        // 执行Dao层逻辑
+        $res = $realnameDao->realnameSelect($get);
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'D');
+    }
 }
