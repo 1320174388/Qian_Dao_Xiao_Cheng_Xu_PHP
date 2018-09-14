@@ -49,10 +49,8 @@ class RealnameService
        ];
 
         $paramstring = http_build_query($params);
-//        return returnData('error',$paramstring);
         $content = $realname->juhecurl(config('v1_config.nameApiUrl'),$paramstring);
         $result = json_decode($content,true);
-        return returnData('error',$result);
         //返回数据错误
         if($result){
             if($result['error_code']=='0'){
