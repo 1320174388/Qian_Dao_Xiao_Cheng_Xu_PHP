@@ -95,6 +95,14 @@ Route::delete(
     ':v/school_module/period_route',
     'school_module/:v.controller.SchoolController/periodDelete'
 );
+/**
+ * 传值方式 : GET
+ * 路由功能 : 获取学校课程课时
+ */
+Route::GET(
+    ':v/school_module/period_route',
+    'school_module/:v.controller.SchoolController/periodGet'
+);
 
 
 

@@ -15,7 +15,7 @@ use think\Validate;
 class SchoolDataValidator extends Validate
 {
     protected $rule = [
-        'user_token'     => 'require',
+        'users_tel'      => 'require',
         'school_name'    => 'require',
         'firm_name'      => 'require',
         'firm_man'       => 'require',
@@ -24,7 +24,7 @@ class SchoolDataValidator extends Validate
         'school_phone'   => 'require'
     ];
     protected $message = [
-        'user_token.require'     => '缺少user_token参数',
+        'users_tel.require'      => '缺少users_tel参数',
         'school_name.require'    => '缺少school_name参数',
         'firm_name.require'      => '缺少firm_name参数',
         'firm_man.require'       => '缺少firm_man参数',

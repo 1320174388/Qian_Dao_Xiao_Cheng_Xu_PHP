@@ -18,4 +18,8 @@ return [
     'wx_Push_Code' => 'iX_e5rlKPhlulkY4eL2gLBZZ5MFnP1XZCM2Alm5gur0',
     // TODO：小程序 wx_Code_URL 验证码模板回调
     'wx_Code_URL'  => '/pages/...',
+    // TODO：小程序 wx_Push_Apply 发送申请模板ID
+    'wx_Push_Apply' => 'aAQB4weN5b2rF2aSSo2eCjk-ABcxTKBOhBTc7jNHaEo',
+    // TODO：小程序 wx_Apply_URL 申请模板回调
+    'wx_Apply_URL'  => '/pages/...',
 ];

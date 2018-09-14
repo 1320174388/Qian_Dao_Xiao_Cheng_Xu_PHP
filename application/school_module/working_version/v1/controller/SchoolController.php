@@ -15,9 +15,9 @@ class SchoolController extends Controller
 {
     /**
      * 名  称 : schoolPost()
-     * 功  能 : 学校申请接口接口
+     * 功  能 : 学校申请接口
      * 变  量 : --------------------------------------
-     * 输  入 : (string) $user_token      =>  用户token
+     * 输  入 : (string) $users_tel       =>  用户手机号
      * 输  入 : (string) $school_name     =>  学校名称
      * 输  入 : (string) $firm_name       =>  公司名称
      * 输  入 : (string) $firm_man        =>  公司法人
@@ -69,6 +69,8 @@ class SchoolController extends Controller
      * 功  能 : 更改教师申请状态
      * 变  量 : --------------------------------------
      * 输  入 : (int)    $teacher_id        =>  教师主键  【必填】
+     * 输  入 : (string) $users_tel       =>  用户手机号  【必填】
+     * 输  入 : (string) $UserFormid       =>  formId  【必填】
      * 输  入 : (int)     $teacher_state    =>  申请状态  【必填】
      * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":"请求数据"}
      * 创  建 : 2018/09/12 17:22
@@ -114,7 +116,7 @@ class SchoolController extends Controller
      * 名  称 : schoolCoursePut()
      * 功  能 : 修改学校课程
      * 变  量 : --------------------------------------
-     * 输  入 : (int)     $course_id       =>  学校主键  【必填】
+     * 输  入 : (int)     $course_id       =>  课程主键  【必填】
      * 输  入 : (int)     $school_id       =>  学校主键  【必填】
      * 输  入 : (string)  $course_name     =>  课程名称  【必填】
      * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":"请求数据"}
@@ -205,6 +207,7 @@ class SchoolController extends Controller
      * 功  能 : 添加课程课时接口
      * 变  量 : --------------------------------------
      * 输  入 : (int)    $course_id        =>  课程主键  【必填】
+     * 输  入 : (int)    $school_id        =>  学校主键  【必填】
      * 输  入 : (int)    $teacher_id       =>  教师主键  【必填】
      * 输  入 : (string) $start_time       =>  开始时间  【必填】
      * 输  入 : (string) $end_time         =>  结束时间  【必填】
@@ -273,5 +276,26 @@ class SchoolController extends Controller
         // 处理函数返回值
         return \RSD::wxReponse($res,'S');
     }
+    /**
+     * 名  称 : periodGet()
+     * 功  能 : 获取学校课程课时列表
+     * 变  量 : --------------------------------------
+     * 输  入 : (int)    $school_id        =>  学校主键  【必填】
+     * 输  出 : {"errNum":0,"retMsg":"提示信息","retData":true}
+     * 创  建 : 2018/09/13 20:01
+     */
+    public function periodGet(\think\Request $request)
+    {
+        // 实例化Service层逻辑类
+        $periodService = new SchoolService();
 
+        // 获取传入参数
+        $get = $request->get();
+
+        // 执行Service逻辑
+        $res = $periodService->periodShow($get);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'S');
+    }
 }

@@ -16,7 +16,7 @@ class SchoolService
      * 名  称 : schoolAdd()
      * 功  能 : 学校申请接口逻辑
      * 变  量 : --------------------------------------
-     * 输  入 : (string) $user_token      =>  用户token
+     * 输  入 : (string) $users_tel       =>  用户手机号
      * 输  入 : (string) $school_name     =>  学校名称
      * 输  入 : (string) $firm_name       =>  公司名称
      * 输  入 : (string) $firm_man        =>  公司法人
@@ -79,6 +79,8 @@ class SchoolService
      * 功  能 : 更改教师申请状态
      * 变  量 : --------------------------------------
      * 输  入 : (int)    $teacher_id        =>  教师主键  【必填】
+     * 输  入 : (string) $users_tel       =>  用户手机号  【必填】
+     * 输  入 : (string) $UserFormid       =>  formId  【必填】
      * 输  入 : (int)    $teacher_state    =>  申请状态  【必填】
      * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":"请求数据"}
      * 创  建 : 2018/09/12 17:22
@@ -88,9 +90,13 @@ class SchoolService
         //验证数据
         $validate = new \think\Validate([
             'teacher_id'        => 'require',
+            'users_tel'         => 'require',
+            'UserFormid'        => 'require',
             'teacher_state'     => 'require'
         ],[
             'teacher_id.require'         => '缺少teacher_id参数',
+            'users_tel.require'         => '缺少users_tel参数',
+            'UserFormid.require'         => '缺少UserFormid参数',
             'teacher_state.require'     => '缺少teacher_state参数'
         ]);
         if (!$validate->check($put)) {
@@ -260,6 +266,7 @@ class SchoolService
      * 功  能 : 添加课程课时逻辑
      * 变  量 : --------------------------------------
      * 输  入 : (int)    $course_id        =>  课程主键  【必填】
+     * 输  入 : (int)    $school_id        =>  学校主键  【必填】
      * 输  入 : (int)    $teacher_id       =>  教师主键  【必填】
      * 输  入 : (string) $start_time       =>  开始时间  【必填】
      * 输  入 : (string) $end_time         =>  结束时间  【必填】
@@ -270,11 +277,13 @@ class SchoolService
     {
         //验证数据
         $validate = new \think\Validate([
+            'school_id'      => 'require',
             'course_id'      => 'require',
             'teacher_id'     => 'require',
             'start_time'     => 'require',
             'end_time'       => 'require',
         ],[
+            'school_id.require'      => '缺少school_id参数',
             'course_id.require'      => '缺少course_id参数',
             'teacher_id.require'     => '缺少teacher_id参数',
             'start_time.require'     => '缺少start_time参数',
@@ -360,5 +369,32 @@ class SchoolService
         // 处理函数返回值
         return \RSD::wxReponse($res,'D');
     }
+    /**
+     * 名  称 : periodShow()
+     * 功  能 : 获取学校课程课时
+     * 变  量 : --------------------------------------
+     * 输  入 : (int)    $school_id        =>  学校主键  【必填】
+     * 输  出 : ['msg'=>'success','data'=>'返回数据']
+     * 创  建 : 2018/09/13 15:21
+     */
+    public function periodShow($get)
+    {
+        //验证数据
+        $validate = new \think\Validate([
+            'school_id'       => 'require',
+        ],[
+            'school_id.require'       => '缺少school_id参数',
+        ]);
+        if (!$validate->check($get)) {
+            return returnData('error',$validate->getError());
+        }
+        // 实例化Dao层数据类
+        $periodDao = new SchoolDao();
 
+        // 执行Dao层逻辑
+        $res = $periodDao->periodSelect($get);
+
+        // 处理函数返回值
+        return \RSD::wxReponse($res,'D');
+    }
 }

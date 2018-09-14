@@ -13,6 +13,8 @@ return [
     'schoolTable'        => 'data_school',
     // 用户信息表
     'usersTable'         => 'data_users',
+    // 用户表
+    'userTable'          => 'data_user',
     // 教师表
     'teacherTable'       => 'data_teacher',
     // 课程表

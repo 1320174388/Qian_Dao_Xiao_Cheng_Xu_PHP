@@ -13,6 +13,7 @@ use app\school_module\working_version\v1\model\SchoolModel;
 use app\school_module\working_version\v1\model\UsersModel;
 use app\school_module\working_version\v1\model\TeacherModel;
 use app\school_module\working_version\v1\model\PeriodModel;
+use app\school_module\working_version\v1\model\UserModel;
 use app\school_module\working_version\v1\model\SchoolStudentModel;
 
 class SchoolDao implements SchoolInterface
@@ -21,7 +22,7 @@ class SchoolDao implements SchoolInterface
      * 名  称 : schoolCreate()
      * 功  能 : 学校申请接口数据处理
      * 变  量 : --------------------------------------
-     * 输  入 : (string) $user_token      =>  用户token
+     * 输  入 : (string) $users_tel       =>  用户手机号
      * 输  入 : (string) $school_name     =>  学校名称
      * 输  入 : (string) $firm_name       =>  公司名称
      * 输  入 : (string) $firm_man        =>  公司法人
@@ -35,7 +36,7 @@ class SchoolDao implements SchoolInterface
     {
         //查询用户实名状态
         $usersOpject = new UsersModel();
-        $state = $usersOpject->where('user_token',$post['user_token'])
+        $state = $usersOpject->where('users_tel',$post['users_tel'])
                             ->field('users_state')
                             ->find();
         //返回未实名状态
@@ -93,7 +94,9 @@ class SchoolDao implements SchoolInterface
      * 名  称 : teacherStateUpdate()
      * 功  能 : 更改教师申请状态
      * 变  量 : --------------------------------------
-     * 输  入 : (int)    $teacher_id        =>  教师主键  【必填】
+     * 输  入 : (int)    $teacher_id       =>  教师主键  【必填】
+     * 输  入 : (string) $users_tel        =>  用户手机号  【必填】
+     * 输  入 : (string) $UserFormid       =>  formId  【必填】
      * 输  入 : (int)    $teacher_state    =>  申请状态  【必填】
      * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":"请求数据"}
      * 创  建 : 2018/09/12 17:22
@@ -106,6 +109,63 @@ class SchoolDao implements SchoolInterface
        $res = $teacherOpject->save([
             'teacher_state' => $put['teacher_state']
         ],['teacher_id' => $put['teacher_id']]);
+        // 获取success_token
+        $accessTokenArr = \AccessTokenRequest::wxRequest(
+            config('wx_config.wx_AppID'),
+            config('wx_config.wx_AppSecret'),
+            './project_access_token/'
+        );
+        //查询用户表
+        $user_token = UsersModel::field('user_token')
+            ->where('users_tel',$put['users_tel'])
+            ->find();
+        //查询openid
+        $openid = UserModel::field('user_openid')->where(
+            'user_token',$user_token['user_token']
+        )->find();
+        //查询教师名字
+        $teacherName = $teacherOpject->field('teacher_name')
+            ->where('teacher_id',$put['teacher_id'])
+            ->find();
+       //判断审核通过
+        if ($put['teacher_state'] == 0 && $res){
+
+            // 发送模板消息
+           $result = \TemplateMessagePushLibrary::sendTemplate(
+                $accessTokenArr['data']['access_token'],
+                [
+                    'touser'      => $openid['user_openid'],
+                    'template_id' => config('wx_config.wx_Push_Apply'),
+                    'page'        => config('wx_config.wx_Apply_URL'),
+                    'form_id'     => $put['UserFormid'],
+                    'data'        => [
+                        'keyword1' => ['value'=>$teacherName['teacher_name']],
+                        'keyword2' => ['value'=>'申请教师'],
+                        'keyword3' => ['value'=>'审核通过'],
+                        'keyword4' => ['value'=>'你以经是教师了'],
+                    ],
+                ]
+            );
+        }else{
+
+            // 发送模板消息
+            $result = \TemplateMessagePushLibrary::sendTemplate(
+                $accessTokenArr['data']['access_token'],
+                [
+                    'touser'      => $openid['user_openid'],
+                    'template_id' => config('wx_config.wx_Push_Apply'),
+                    'page'        => config('wx_config.wx_Apply_URL'),
+                    'form_id'     => $put['UserFormid'],
+                    'data'        => [
+                        'keyword1' => ['value'=>$teacherName['teacher_name']],
+                        'keyword2' => ['value'=>'申请教师'],
+                        'keyword3' => ['value'=>'审核不通过'],
+                        'keyword4' => ['value'=>'审核失败请联系管理员'],
+                    ],
+                ]
+            );
+        }
+
         // 返回结果
         return \RSD::wxReponse($res,'M','更新成功','更新失败');
     }
@@ -122,6 +182,19 @@ class SchoolDao implements SchoolInterface
     {
         //Course 模型
         $course = new CourseModel();
+        //查询课程是否删除
+        $name = $course->where(['school_id'=>$post['school_id'],
+            'course_name'=>$post['course_name'],
+            'course_status'=> 0])
+            ->find();
+        //更改状态
+        if($name){
+            $res = $course->where(['school_id'=>$post['school_id'],
+                'course_name'=>$post['course_name'],
+                'course_status'=> 0])
+                ->update(['course_status'=> 1]);
+            return \RSD::wxReponse($res,'M','添加成功','添加失败');
+        }
         //查询课程名称
         $courseName = $course->where(['school_id'=>$post['school_id'],
                                       'course_name'=>$post['course_name'],
@@ -175,6 +248,12 @@ class SchoolDao implements SchoolInterface
      */
     public function schoolCourseDelete($delete)
     {
+        //查询课时
+       $period =  PeriodModel::where('course_id',$delete['course_id'])->find();
+       //返回已存在课时
+        if ($period){
+            return returnData('error','课程下面存在课时不可删除');
+        }
         //  CourseModel 模型
         $course = new CourseModel();
         //更改课程删除状态 实现软删除
@@ -211,9 +290,22 @@ class SchoolDao implements SchoolInterface
     public function schoolStudentSelect($get)
     {
         // SchoolModel 模型
-        $schoolStudent = SchoolModel::get($get['school_id']);
-        //关联查询
-        $res = $schoolStudent->roles;
+//        $schoolStudent = SchoolModel::get($get['school_id']);
+//        //关联查询
+//        $res = $schoolStudent->roles;
+        // 关联查询
+        $res = SchoolStudentModel::leftJoin(config('v1_tableName.schoolTable'),
+            config('v1_tableName.schoolStudentTable').'.school_id = '.
+            config('v1_tableName.schoolTable').'.school_id')
+        ->leftJoin(config('v1_tableName.studentTable'),
+            config('v1_tableName.schoolStudentTable').'.student_id = '.
+            config('v1_tableName.studentTable').'.student_id')
+            ->leftJoin(config('v1_tableName.usersTable'),
+                config('v1_tableName.studentTable').'.users_tel = '.
+                config('v1_tableName.usersTable').'.users_tel' )
+            ->where(config('v1_tableName.schoolStudentTable').'.school_id',$get['school_id'])
+            ->select();
+        //返回结果
         return \RSD::wxReponse($res->toArray(),'M',$res->toArray(),'没有数据');
     }
     /**
@@ -221,6 +313,7 @@ class SchoolDao implements SchoolInterface
      * 功  能 : 添加课程课时数据处理
      * 变  量 : --------------------------------------
      * 输  入 : (int)    $course_id        =>  课程主键  【必填】
+     * 输  入 : (int)    $school_id        =>  学校主键  【必填】
      * 输  入 : (int)    $teacher_id       =>  教师主键  【必填】
      * 输  入 : (string) $start_time       =>  开始时间  【必填】
      * 输  入 : (string) $end_time         =>  结束时间  【必填】
@@ -270,5 +363,25 @@ class SchoolDao implements SchoolInterface
         $res = PeriodModel::destroy($delete['period_id']);
         return \RSD::wxReponse($res,'M','删除成功','删除失败');
     }
+    /**
+     * 名  称 : periodSelect()
+     * 功  能 : 获取学校课程课时
+     * 变  量 : --------------------------------------
+     * 输  入 : (int)    $school_id        =>  学校主键  【必填】
+     * 输  出 : ['msg'=>'success','data'=>'返回数据']
+     * 创  建 : 2018/09/13 15:21
+     */
+    public function periodSelect($get)
+    {
+        // PeriodModel 模型
+        $res = PeriodModel::leftJoin(config('v1_tableName.courseTable'),
+                        config('v1_tableName.periodTable').'.course_id = '.
+                        config('v1_tableName.courseTable').'.course_id')
+            ->leftJoin(config('v1_tableName.teacherTable'),
+                        config('v1_tableName.periodTable').'.teacher_id = '.
+                        config('v1_tableName.teacherTable').'.teacher_id')
+            ->where(config('v1_tableName.periodTable').'.school_id',$get['school_id'])->select();
 
+        return \RSD::wxReponse($res->toArray(),'M',$res->toArray(),'没有数据');
+    }
 }

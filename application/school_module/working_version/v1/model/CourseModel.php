@@ -29,4 +29,12 @@ class CourseModel extends Model
     {
         $this->table = config('v1_tableName.courseTable');
     }
+    //多对多 关联 教师表
+    public function roles()
+    {
+        return $this->belongsToMany('TeacherModel',
+            config('v1_tableName.periodTable'),
+            'teacher_id',
+            'course_id');
+    }
 }
