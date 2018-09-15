@@ -10,7 +10,7 @@
 namespace app\wx_s_login_module\working_version\v1\controller;
 use think\Controller;
 use think\facade\Cache;
-use app\wx_s_login_module\working_version\v1\service\Wx_s_loginService;
+use app\wx_s_login_module\working_version\v1\service\LoginService;
 
 class WxSLoginController extends Controller
 {
@@ -28,7 +28,7 @@ class WxSLoginController extends Controller
     public function wx_s_loginPost(\think\Request $request)
     {
         // 实例化Service层逻辑类
-        $wx_s_loginService = new Wx_s_loginService();
+        $wx_s_loginService = new LoginService();
 
         // 获取传入参数
         $post = $request->post();
@@ -53,7 +53,7 @@ class WxSLoginController extends Controller
     public function login_codeGet(\think\Request $request)
     {
         // 实例化Service层逻辑类
-        $login_codeService = new Wx_s_loginService();
+        $login_codeService = new LoginService();
 
         // 获取传入参数
         $get = $request->get();
@@ -105,7 +105,7 @@ class WxSLoginController extends Controller
     public function wx_s_loginGet(\think\Request $request)
     {
         // 实例化Service层逻辑类
-        $wx_s_loginService = new Wx_s_loginService();
+        $wx_s_loginService = new LoginService();
 
         // 获取传入参数
         $get = $request->get();
@@ -131,7 +131,7 @@ class WxSLoginController extends Controller
     public function wx_s_loginPut(\think\Request $request)
     {
         // 实例化Service层逻辑类
-        $wx_s_loginService = new Wx_s_loginService();
+        $wx_s_loginService = new LoginService();
 
         // 获取传入参数
         $put = $request->put();
@@ -155,7 +155,7 @@ class WxSLoginController extends Controller
     public function wx_user_keyGet(\think\Request $request)
     {
         // 实例化Service层逻辑类
-        $wx_user_keyService = new Wx_s_loginService();
+        $wx_user_keyService = new LoginService();
 
         // 获取传入参数
         $get = $request->get();

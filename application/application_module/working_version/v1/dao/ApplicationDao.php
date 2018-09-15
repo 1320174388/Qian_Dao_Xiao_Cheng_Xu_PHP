@@ -12,8 +12,10 @@ use app\application_module\working_version\v1\model\ApplicationModel;
 use app\application_module\working_version\v1\model\TeacherModel;
 use app\application_module\working_version\v1\model\UserModel;
 use app\application_module\working_version\v1\model\StudentModel;
-use app\application_module\working_version\v1\model\UserschoolModel;
 use app\application_module\working_version\v1\model\UserscourseModel;
+use app\application_module\working_version\v1\model\userSelModel;
+use app\application_module\working_version\v1\service\ApplicationService;
+
 class ApplicationDao
 {
     /**
@@ -48,17 +50,72 @@ class ApplicationDao
      * 输  出 : [ 'msg'=>'success' , 'data'=>true ]
      * 创  建 : 2018/09/12 10:03
      */
-    public function applicationUpd($applicationid,$application)
+    public function applicationUpd($applicationid,$application,$tel)
     {
         $ApplicationModel = new ApplicationModel();
         // 进行修改
         $res = $ApplicationModel->save([
             $ApplicationModel->school_state    = $application
         ],['school_id'=>$applicationid]);
+        // 获取success_token
+        $accessTokenArr = \AccessTokenRequest::wxRequest(
+            config('wx_config.wx_AppID'),
+            config('wx_config.wx_AppSecret'),
+            './project_access_token/'
+        );
+        // 获取openid
+        $tel = ApplicationModel::field('users_tel')
+            ->where('users_tel',$tel)
+            ->find();
+        $token = UserModel::field('user_token')
+            ->where('users_tel',$tel)
+            ->find();
+        $openid = userSelModel::field('user_openid')
+            ->where('user_token',$token)
+            ->find();
+        $Formid = ApplicationModel::field('users_tel')
+            ->where('form_id',$tel)
+            ->find();
+        // 发送模板消息
+        if ($res['teacher_state'] == 0 && $res) {
+            \TemplateMessagePushLibrary::sendTemplate(
+                $accessTokenArr['data']['access_token'],
+                [
+                    'touser' => $openid,
+                    'template_id' => config('wx_config.wx_Push_Apply'),
+                    'page' => config('wx_config.wx_Apply_URL'),
+                    'form_id' => $Formid,
+                    'data' => [
+                        'keyword1' => ['value' => '申请学校'],
+                        'keyword2' => ['value' => '审核通过'],
+                    ],
+                ]
+            );
+        }else{
+            \TemplateMessagePushLibrary::sendTemplate(
+                $accessTokenArr['data']['access_token'],
+                [
+                    'touser' => $openid,
+                    'template_id' => config('wx_config.wx_Push_Apply'),
+                    'page' => config('wx_config.wx_Apply_URL'),
+                    'form_id' => $Formid,
+                    'data' => [
+                        'keyword1' => ['value' => '申请学校'],
+                        'keyword2' => ['value' => '审核失败'],
+                    ],
+                ]
+            );
+        }
+
+        // 判断模板消息是否发送成功
+        if($res['msg']=='error'){
+            return returnData('error',$res['data']);
+        }
         // 验证
         if(!$res){
             return returnData('error',false);
         }
+
         // 返回数据
         return returnData('success',$res);
     }

@@ -9,6 +9,7 @@
  */
 namespace app\application_module\working_version\v1\service;
 use app\application_module\working_version\v1\dao\ApplicationDao;
+use app\application_module\working_version\v1\model\userSelModel;
 
 class ApplicationService
 {
@@ -36,10 +37,10 @@ class ApplicationService
      * 输  出 : [ 'msg'=>'success' , 'data'=>true ]
      * 创  建 : 2018/09/12 10:03
      */
-    public function applicationUpd($applicationid,$application)
+    public function applicationUpd($applicationid,$application,$tel)
     {
         // ApplicationDao
-        $res=(new ApplicationDao)->applicationUpd($applicationid,$application);
+        $res=(new ApplicationDao)->applicationUpd($applicationid,$application,$tel);
         if($res['msg']=='error') return returnData('error','修改失败');
         // 返回数据
         return returnData('success',$res['data']);
@@ -177,4 +178,5 @@ class ApplicationService
         return returnData('success',$res['data']);
 
     }
+
 }

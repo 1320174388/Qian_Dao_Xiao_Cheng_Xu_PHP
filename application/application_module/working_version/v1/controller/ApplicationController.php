@@ -8,6 +8,7 @@
  *  历史记录 :  -----------------------
  */
 namespace app\application_module\working_version\v1\controller;
+use app\application_module\working_version\v1\model\ApplicationModel;
 use think\Controller;
 use think\Request;
 use app\application_module\working_version\v1\service\ApplicationService;
@@ -47,8 +48,9 @@ class ApplicationController extends Controller
         // 获取传值
         $applicationid  = $request->post('school_id');
         $application  = $request->post('school_state');
+        $tel  = $request->post('users_tel');
         // 引入Service逻辑层代码
-        $res = (new ApplicationService())->applicationUpd($applicationid,$application);
+        $res = (new ApplicationService())->applicationUpd($applicationid,$application,$tel);
         if($res['msg']=='error') return returnResponse(3,$res['data']);
         // 返回数据
         return returnResponse(0,'修改成功',$res['data']);
@@ -199,6 +201,50 @@ class ApplicationController extends Controller
         $res = (new ApplicationService())->signSel($school);
 
         return \RSD::wxReponse($res,'S','请求成功','查询成功');
+    }
+
+
+    /**
+     * 名  称 : signSel()
+     * 功  能 : 查询学校学生签到信息
+     * 变  量 : --------------------------------------
+     * 输  入 : $post['UserToken']  => '用户Token标识';
+     * 输  入 : $get['UserPhone']  => '用户手机号';
+     * 输  入 : $get['UserFormid'] => '表单提交ID';
+     * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":true}
+     * 创  建 : 2018/09/12 10:03
+     */
+    public function login_codeShow(Request $request)
+    {
+        // 获取传值
+        $token  = $request->post('user_token');
+        $tel  = $request->post('user_tel');
+        $id  = $request->post('id');
+        // 引入Service逻辑层代码
+        $res = (new Wx_s_loginService())->login_codeShow($token,$tel,$id);
+
+        return \RSD::wxReponse($res,'S','请求成功','查询成功');
+    }
+
+
+    /**
+     * 名  称 : signSel()
+     * 功  能 : 查询学校学生签到信息
+     * 变  量 : --------------------------------------
+     * 输  入 : $post['UserToken']  => '用户Token标识';
+     * 输  入 : $get['UserPhone']  => '用户手机号';
+     * 输  入 : $get['UserFormid'] => '表单提交ID';
+     * 输  出 : {"errNum":0,"retMsg":"请求成功","retData":true}
+     * 创  建 : 2018/09/12 10:03
+     */
+    public function Moban(Request $request)
+    {
+        // 获取传值
+        $token  = $request->post('user_token');
+        // 引入Service逻辑层代码
+        $res = (new ApplicationService())->Moban($token);
+
+        return \RSD::wxReponse($res,'S','发送成功','发送成功');
     }
 
 
