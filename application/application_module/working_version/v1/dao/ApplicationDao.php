@@ -37,7 +37,7 @@ class ApplicationDao
         }
 
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$list);
 
     }
 
@@ -60,7 +60,7 @@ class ApplicationDao
             return returnData('error',false);
         }
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res);
     }
 
     /**
@@ -84,7 +84,7 @@ class ApplicationDao
         }
 
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$list);
     }
 
 
@@ -105,27 +105,26 @@ class ApplicationDao
         // 返回数据
         return returnData('success',$list);
     }
-
-
     /**
      * 名  称 : student()
      * 功  能 : 声明：学生列表
-     * 输  入 : (string) $school => '学校ID';
+     * 输  入 : (string) $studen => '学生ID';
      * 输  出 : [ 'msg'=>'success' , 'data'=>true ]
      * 创  建 : 2018/09/12 10:03
      */
-    public function studentSel($school)
+    public function studentSel($studen)
     {
-        $Student = new UserschoolModel();
-        $list = $Student->field('student_id')->where('school_id',$school)->select();
-
-        $res = StudentModel::where('student_id',$list)->select();
-        if(!$res){
+        $StudentModel = new StudentModel();
+        if($StudentModel == ''){
+            $list = $StudentModel->select();
+        }else{
+            $list = $StudentModel->where('student_id',$studen)->find();
+        }
+        if(!$list){
             return returnData('error',false);
         }
-
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$list);
     }
 
     /**
@@ -154,7 +153,7 @@ class ApplicationDao
             return returnData('error',false);
         }
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res);
 
     }
 
@@ -182,7 +181,7 @@ class ApplicationDao
         $res = $Userscourse->save();
         if(!$res) return returnData('error');
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res);
 
     }
 
@@ -211,7 +210,7 @@ class ApplicationDao
         }
 
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$list);
     }
 
 

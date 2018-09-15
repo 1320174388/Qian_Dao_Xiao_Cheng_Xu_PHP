@@ -25,7 +25,7 @@ class ApplicationService
         $res=(new ApplicationDao)->applicationSel($application);
         if($res['msg']=='error') return returnData('error','查询失败');
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res['data']);
 
     }
 
@@ -42,7 +42,7 @@ class ApplicationService
         $res=(new ApplicationDao)->applicationUpd($applicationid,$application);
         if($res['msg']=='error') return returnData('error','修改失败');
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res['data']);
 
     }
 
@@ -59,7 +59,7 @@ class ApplicationService
         $res=(new ApplicationDao)->tecacherSel($schoolid);
         if($res['msg']=='error') return returnData('error','查询失败');
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res['data']);
 
     }
 
@@ -77,24 +77,24 @@ class ApplicationService
         $res=(new ApplicationDao)->tecacherSelect($teacherid);
         if($res['msg']=='error') return returnData('error','查询失败');
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res['data']);
 
     }
 
     /**
      * 名  称 : studentSel()
      * 功  能 : 学生列表
-     * 输  入 : (string) $teacherid => '学校ID';
+     * 输  入 : (string) $studen => '学生ID';
      * 输  出 : [ 'msg'=>'success' , 'data'=>true ]
      * 创  建 : 2018/09/12 10:03
      */
-    public function studentSel($school)
+    public function studentSel($studen='')
     {
         // ApplicationDao
-        $res=(new ApplicationDao)->studentSel($school);
+        $res=(new ApplicationDao)->studentSel($studen);
         if($res['msg']=='error') return returnData('error','查询失败');
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res['data']);
 
     }
 
@@ -116,7 +116,7 @@ class ApplicationService
         $res=(new ApplicationDao)->modifySel($tel,$school,$course,$num);
         if($res['msg']=='error') return returnData('error','修改失败');
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res['data']);
 
     }
 
@@ -137,7 +137,7 @@ class ApplicationService
         $res=(new ApplicationDao)->modifyAdd($tel,$school,$course,$num);
         if($res['msg']=='error') return returnData('error','添加失败');
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res['data']);
 
     }
 
@@ -155,7 +155,7 @@ class ApplicationService
         $res=(new ApplicationDao)->userSel($userstel);
         if($res['msg']=='error') return returnData('error','查询失败');
         // 返回数据
-        return returnData('success',true);
+        return returnData('success',$res['data']);
 
     }
 

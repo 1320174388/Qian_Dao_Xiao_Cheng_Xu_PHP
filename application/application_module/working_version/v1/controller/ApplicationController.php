@@ -30,7 +30,7 @@ class ApplicationController extends Controller
         $res = (new ApplicationService())->applicationSel($application);
         if($res['msg']=='error') return returnResponse(3,$res['data']);
         // 返回数据
-        return returnResponse(0,'查询成功',true);
+        return returnResponse(0,'请求成功',$res['data']);
 
     }
 
@@ -51,7 +51,7 @@ class ApplicationController extends Controller
         $res = (new ApplicationService())->applicationUpd($applicationid,$application);
         if($res['msg']=='error') return returnResponse(3,$res['data']);
         // 返回数据
-        return returnResponse(0,'修改成功',true);
+        return returnResponse(0,'修改成功',$res['data']);
 
     }
 
@@ -59,7 +59,7 @@ class ApplicationController extends Controller
      * 名  称 : tecacherSel()
      * 功  能 : 教师列表
      * 变  量 : --------------------------------------
-     * 输  入 : (string) $schoolid => '学校ID';
+     * 输  入 : (string) $schoolid => '老师ID';
      * 输  出 : {"errNum":0,"retMsg":"查询成功","retData":true}
      * 创  建 : 2018/09/12 10:03
      */
@@ -71,7 +71,7 @@ class ApplicationController extends Controller
         $res = (new ApplicationService())->tecacherSel($schoolid);
         if($res['msg']=='error') return returnResponse(3,$res['data']);
         // 返回数据
-        return returnResponse(0,'查询成功',true);
+        return returnResponse(0,'请求成功',$res['data']);
 
     }
 
@@ -92,7 +92,7 @@ class ApplicationController extends Controller
         $res = (new ApplicationService())->tecacherSelect($teacherid);
         if($res['msg']=='error') return returnResponse(3,$res['data']);
         // 返回数据
-        return returnResponse(0,'查询成功',true);
+        return returnResponse(0,'请求成功',$res['data']);
 
     }
 
@@ -107,10 +107,10 @@ class ApplicationController extends Controller
     public function studentSel(Request $request)
     {
         // 获取传值
-        $school  = $request->post('school_id');
+        $studen  = $request->post('student_id');
         // 引入Service逻辑层代码
-        $res = (new ApplicationService())->studentSel($school);
-        return \RSD::wxReponse($res,'S','查找成功',$res['data']);
+        $res = (new ApplicationService())->studentSel($studen);
+        return returnResponse(0,'请求成功',$res['data']);
     }
 
 
@@ -135,7 +135,7 @@ class ApplicationController extends Controller
         // 引入Service逻辑层代码
         $res = (new ApplicationService())->modifySel($tel,$school,$course,$num);
 
-        return \RSD::wxReponse($res,'S','修改成功',$res['data']);
+        return returnResponse(0,'修改成功',$res['data']);
     }
 
 
@@ -160,7 +160,7 @@ class ApplicationController extends Controller
         // 引入Service逻辑层代码
         $res = (new ApplicationService())->modifyAdd($tel,$school,$course,$num);
 
-        return \RSD::wxReponse($res,'S','添加成功',$res['data']);
+        return returnResponse(0,'添加成功',$res['data']);
     }
 
 
@@ -179,7 +179,7 @@ class ApplicationController extends Controller
         // 引入Service逻辑层代码
         $res = (new ApplicationService())->userSel($userstel);
 
-        return \RSD::wxReponse($res,'S','查询成功',$res['data']);
+        return returnResponse(0,'查询成功',$res['data']);
     }
 
 
