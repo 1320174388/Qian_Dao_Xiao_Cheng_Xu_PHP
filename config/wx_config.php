@@ -9,9 +9,9 @@
  */
 return [
     // TODO：小程序 wx_AppID
-    'wx_AppID'     => 'wxccc5a444059f1b68',
+    'wx_AppID'     => 'wxbaa373833fc5237d',
     // TODO：小程序 wx_AppSecret
-    'wx_AppSecret' => '10ea8042bb37f632aee713775f77587f',
+    'wx_AppSecret' => 'b261dfdd19b56183d0ed4adaad88bc93',
     // TODO：小程序 wx_LoginUrl 获取OPENID地址
     'wx_LoginUrl'  => 'https://api.weixin.qq.com/sns/jscode2session',
     // TODO：小程序 wx_Push_Code 发送验证码模板ID

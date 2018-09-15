@@ -5,6 +5,7 @@ use think\Validate;
 // | 检测数据
 // +----------------------------------------------------------------------
 // | (string) `user_token`      => `用户token`
+// | (string) `form_id`         => `formid`
 // | (string) `school_name`     => `学校名称`
 // | (string) `firm_name`       => `公司名称`
 // | (string) `firm_man`        => `公司法人`
@@ -15,6 +16,7 @@ use think\Validate;
 class SchoolDataValidator extends Validate
 {
     protected $rule = [
+        'form_id'        => 'require',
         'users_tel'      => 'require',
         'school_name'    => 'require',
         'firm_name'      => 'require',
@@ -24,6 +26,7 @@ class SchoolDataValidator extends Validate
         'school_phone'   => 'require'
     ];
     protected $message = [
+        'form_id.require'        => '缺少form_id参数',
         'users_tel.require'      => '缺少users_tel参数',
         'school_name.require'    => '缺少school_name参数',
         'firm_name.require'      => '缺少firm_name参数',
