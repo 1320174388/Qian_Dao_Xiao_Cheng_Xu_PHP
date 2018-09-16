@@ -9,7 +9,7 @@
  */
 namespace app\wx_s_login_module\working_version\v1\library;
 
-class Wx_s_loginLibrary
+class WxSLoginLibrary
 {
 
 }

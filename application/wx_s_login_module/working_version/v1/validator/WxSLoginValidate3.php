@@ -10,7 +10,7 @@
 namespace app\wx_s_login_module\working_version\v1\validator;
 use think\Validate;
 
-class Wx_s_loginValidate3 extends Validate
+class WxSLoginValidate3 extends Validate
 {
     /**
      * 名  称 : $rule

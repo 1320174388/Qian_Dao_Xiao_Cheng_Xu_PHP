@@ -10,7 +10,7 @@
 namespace app\wx_s_login_module\working_version\v1\model;
 use think\Model;
 
-class Wx_s_loginModel extends Model
+class WxSLoginModel extends Model
 {
     // 设置当前模型对应的完整数据表名称
     protected $table = '';
