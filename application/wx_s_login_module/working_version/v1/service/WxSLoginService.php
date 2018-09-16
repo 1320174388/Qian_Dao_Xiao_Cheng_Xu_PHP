@@ -8,15 +8,15 @@
  *  历史记录 :  -----------------------
  */
 namespace app\wx_s_login_module\working_version\v1\service;
-use app\wx_s_login_module\working_version\v1\dao\Wx_s_loginDao;
+use app\wx_s_login_module\working_version\v1\dao\WxSLoginDao;
 use  app\login_module\working_version\v1\model\UserModel;
-use app\wx_s_login_module\working_version\v1\library\Wx_s_loginLibrary;
-use app\wx_s_login_module\working_version\v1\validator\Wx_s_loginValidate;
-use app\wx_s_login_module\working_version\v1\validator\Wx_s_loginValidate2;
-use app\wx_s_login_module\working_version\v1\validator\Wx_s_loginValidate3;
+use app\wx_s_login_module\working_version\v1\library\WxSLoginLibrary;
+use app\wx_s_login_module\working_version\v1\validator\WxSLoginValidate;
+use app\wx_s_login_module\working_version\v1\validator\WxSLoginValidate2;
+use app\wx_s_login_module\working_version\v1\validator\WxSLoginValidate3;
 use app\wx_s_login_module\working_version\v1\validator\LoginCodeValidate;
 
-class Wx_s_loginService
+class WxSLoginService
 {
     /**
      * 名  称 : wx_s_loginAdd()
@@ -32,7 +32,7 @@ class Wx_s_loginService
     public function wx_s_loginAdd($post)
     {
         // 实例化验证器代码
-        $validate  = new Wx_s_loginValidate();
+        $validate  = new WxSLoginValidate();
 
         // 验证数据
         if (!$validate->scene('edit')->check($post)) {
@@ -40,10 +40,10 @@ class Wx_s_loginService
         }
 
         // 实例化Dao层数据类
-        $wx_s_loginDao = new Wx_s_loginDao();
+        $WxSLoginDao = new WxSLoginDao();
 
         // 执行Dao层逻辑
-        $res = $wx_s_loginDao->wx_s_loginCreate($post);
+        $res = $WxSLoginDao->wx_s_loginCreate($post);
 
         // 处理函数返回值
         return \RSD::wxReponse($res,'D');
@@ -103,7 +103,7 @@ class Wx_s_loginService
         }
 
         // 实例化Dao层数据类
-        $login_codeDao = new Wx_s_loginDao();
+        $login_codeDao = new WxSLoginDao();
         // 执行Dao层逻辑
         $res = $login_codeDao->login_codeSelect($get);
         // 处理函数返回值
@@ -122,7 +122,7 @@ class Wx_s_loginService
     public function wx_s_loginShow($get)
     {
         // 实例化验证器代码
-        $validate  = new Wx_s_loginValidate2();
+        $validate  = new WxSLoginValidate2();
 
         // 验证数据
         if (!$validate->scene('edit')->check($get)) {
@@ -130,10 +130,10 @@ class Wx_s_loginService
         }
 
         // 实例化Dao层数据类
-        $wx_s_loginDao = new Wx_s_loginDao();
+        $WxSLoginDao = new WxSLoginDao();
 
         // 执行Dao层逻辑
-        $res = $wx_s_loginDao->wx_s_loginSelect($get);
+        $res = $WxSLoginDao->wx_s_loginSelect($get);
 
         // 处理函数返回值
         return \RSD::wxReponse($res,'D');
@@ -153,7 +153,7 @@ class Wx_s_loginService
     public function wx_s_loginEdit($put)
     {
         // 实例化验证器代码
-        $validate  = new Wx_s_loginValidate();
+        $validate  = new WxSLoginValidate();
 
         // 验证数据
         if (!$validate->scene('edit')->check($put)) {
@@ -161,10 +161,10 @@ class Wx_s_loginService
         }
 
         // 实例化Dao层数据类
-        $wx_s_loginDao = new Wx_s_loginDao();
+        $WxSLoginDao = new WxSLoginDao();
 
         // 执行Dao层逻辑
-        $res = $wx_s_loginDao->wx_s_loginUpdate($put);
+        $res = $WxSLoginDao->wx_s_loginUpdate($put);
 
         // 处理函数返回值
         return \RSD::wxReponse($res,'D');
@@ -182,7 +182,7 @@ class Wx_s_loginService
     public function wx_user_keyShow($get)
     {
         // 实例化验证器代码
-        $validate  = new Wx_s_loginValidate3();
+        $validate  = new WxSLoginValidate3();
 
         // 验证数据
         if (!$validate->scene('edit')->check($get)) {
@@ -190,7 +190,7 @@ class Wx_s_loginService
         }
 
         // 实例化Dao层数据类
-        $wx_user_keyDao = new Wx_s_loginDao();
+        $wx_user_keyDao = new WxSLoginDao();
 
         // 执行Dao层逻辑
         $res = $wx_user_keyDao->wx_user_keySelect($get);

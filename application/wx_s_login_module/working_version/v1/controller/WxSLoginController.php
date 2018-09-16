@@ -10,7 +10,7 @@
 namespace app\wx_s_login_module\working_version\v1\controller;
 use think\Controller;
 use think\facade\Cache;
-use app\wx_s_login_module\working_version\v1\service\Wx_s_loginService;
+use app\wx_s_login_module\working_version\v1\service\WxSLoginService;
 
 class WxSLoginController extends Controller
 {
@@ -28,13 +28,13 @@ class WxSLoginController extends Controller
     public function wx_s_loginPost(\think\Request $request)
     {
         // 实例化Service层逻辑类
-        $wx_s_loginService = new Wx_s_loginService();
+        $WxSLoginService = new WxSLoginService();
 
         // 获取传入参数
         $post = $request->post();
 
         // 执行Service逻辑
-        $res = $wx_s_loginService->wx_s_loginAdd($post);
+        $res = $WxSLoginService->wx_s_loginAdd($post);
 
         // 处理函数返回值
         return \RSD::wxReponse($res,'S','');
@@ -53,7 +53,7 @@ class WxSLoginController extends Controller
     public function login_codeGet(\think\Request $request)
     {
         // 实例化Service层逻辑类
-        $login_codeService = new Wx_s_loginService();
+        $login_codeService = new WxSLoginService();
 
         // 获取传入参数
         $get = $request->get();
@@ -105,13 +105,13 @@ class WxSLoginController extends Controller
     public function wx_s_loginGet(\think\Request $request)
     {
         // 实例化Service层逻辑类
-        $wx_s_loginService = new Wx_s_loginService();
+        $WxSLoginService = new WxSLoginService();
 
         // 获取传入参数
         $get = $request->get();
 
         // 执行Service逻辑
-        $res = $wx_s_loginService->wx_s_loginShow($get);
+        $res = $WxSLoginService->wx_s_loginShow($get);
 
         // 处理函数返回值
         return \RSD::wxReponse($res,'S','请求成功');
@@ -131,13 +131,13 @@ class WxSLoginController extends Controller
     public function wx_s_loginPut(\think\Request $request)
     {
         // 实例化Service层逻辑类
-        $wx_s_loginService = new Wx_s_loginService();
+        $WxSLoginService = new WxSLoginService();
 
         // 获取传入参数
         $put = $request->put();
 
         // 执行Service逻辑
-        $res = $wx_s_loginService->wx_s_loginEdit($put);
+        $res = $WxSLoginService->wx_s_loginEdit($put);
 
         // 处理函数返回值
         return \RSD::wxReponse($res,'S','');
@@ -155,7 +155,7 @@ class WxSLoginController extends Controller
     public function wx_user_keyGet(\think\Request $request)
     {
         // 实例化Service层逻辑类
-        $wx_user_keyService = new Wx_s_loginService();
+        $wx_user_keyService = new WxSLoginService();
 
         // 获取传入参数
         $get = $request->get();

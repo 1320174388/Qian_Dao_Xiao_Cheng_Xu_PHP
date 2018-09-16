@@ -9,9 +9,9 @@
  */
 namespace app\wx_s_login_module\working_version\v1\dao;
 use think\facade\Cache;
-use app\wx_s_login_module\working_version\v1\model\Wx_s_loginModel;
+use app\wx_s_login_module\working_version\v1\model\WxSLoginModel;
 
-class Wx_s_loginDao implements Wx_s_loginInterface
+class WxSLoginDao implements WxSLoginInterface
 {
     /**
      * 名  称 : wx_s_loginCreate()
@@ -27,22 +27,22 @@ class Wx_s_loginDao implements Wx_s_loginInterface
     public function wx_s_loginCreate($post)
     {
         // TODO :  获取数据
-        $res = Wx_s_loginModel::where(
+        $res = WxSLoginModel::where(
             'users_tel',$post['UserPhone']
         )->select()->toArray();
         // 验证数据
         if($res){
             return returnData('error','手机号已经注册');
         }
-        // TODO :  Wx_s_loginModel 模型
-        $wx_s_loginModel =  new Wx_s_loginModel();
+        // TODO :  WxSLoginModel 模型
+        $WxSLoginModel =  new WxSLoginModel();
         // TODO :  处理数据
-        $wx_s_loginModel->user_token = $post['UserToken'];
-        $wx_s_loginModel->users_tel   = $post['UserPhone'];
-        $wx_s_loginModel->users_pass  = md5($post['UserPass']);
-        $wx_s_loginModel->users_state = 1;
+        $WxSLoginModel->user_token = $post['UserToken'];
+        $WxSLoginModel->users_tel   = $post['UserPhone'];
+        $WxSLoginModel->users_pass  = md5($post['UserPass']);
+        $WxSLoginModel->users_state = 1;
         // TODO :  保存数据
-        $res = $wx_s_loginModel->save();
+        $res = $WxSLoginModel->save();
         // TODO :  返回数据
         return \RSD::wxReponse($res,'M','注册成功','注册失败');
     }
@@ -77,7 +77,7 @@ class Wx_s_loginDao implements Wx_s_loginInterface
     public function wx_s_loginSelect($get)
     {
         // TODO :  获取数据
-        $res = Wx_s_loginModel::where(
+        $res = WxSLoginModel::where(
             'users_tel',$get['UserPhone']
         )->find();
         // 验证数据
@@ -90,7 +90,7 @@ class Wx_s_loginDao implements Wx_s_loginInterface
         $r = $res->save();
         // 判断是否修改成功
         if(!$r) return returnData('error','登录令牌获取失败');
-        // TODO :  Wx_s_loginModel 模型
+        // TODO :  WxSLoginModel 模型
         if(md5($get['UserPass'])===$res['users_pass']){
             return returnData('success',$uniqidIndex);
         }
@@ -112,24 +112,24 @@ class Wx_s_loginDao implements Wx_s_loginInterface
     public function wx_s_loginUpdate($put)
     {
         // TODO :  获取数据
-        $res = Wx_s_loginModel::where(
+        $res = WxSLoginModel::where(
             'users_tel',$put['UserPhone']
         )->select()->toArray();
         // 验证数据
         if(!$res){
             return returnData('error','账号不存在');
         }
-        // TODO :  Wx_s_loginModel 模型
-        $wx_s_loginModel =  Wx_s_loginModel::where(
+        // TODO :  WxSLoginModel 模型
+        $WxSLoginModel =  WxSLoginModel::where(
             'users_tel',$put['UserPhone']
         )->find();
         // TODO :  处理数据
-        $wx_s_loginModel->user_token = $put['UserToken'];
-        $wx_s_loginModel->users_tel   = $put['UserPhone'];
-        $wx_s_loginModel->users_pass  = md5($put['UserPass']);
-        $wx_s_loginModel->users_key  = uniqidIndex();
+        $WxSLoginModel->user_token = $put['UserToken'];
+        $WxSLoginModel->users_tel   = $put['UserPhone'];
+        $WxSLoginModel->users_pass  = md5($put['UserPass']);
+        $WxSLoginModel->users_key  = uniqidIndex();
         // TODO :  保存数据
-        $res = $wx_s_loginModel->save();
+        $res = $WxSLoginModel->save();
         // TODO :  返回数据
         return \RSD::wxReponse($res,'M','修改成功','修改失败');
     }
@@ -146,7 +146,7 @@ class Wx_s_loginDao implements Wx_s_loginInterface
     public function wx_user_keySelect($get)
     {
         // TODO :  Wx_user_keyModel 模型
-        $user = Wx_s_loginModel::where(
+        $user = WxSLoginModel::where(
             'users_tel',$get['UserPhone']
         )->find();
         // TODO :  判断是否有用户

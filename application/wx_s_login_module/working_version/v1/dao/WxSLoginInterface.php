@@ -9,7 +9,7 @@
  */
 namespace app\wx_s_login_module\working_version\v1\dao;
 
-interface Wx_s_loginInterface
+interface WxSLoginInterface
 {
     /**
      * 名  称 : wx_s_loginCreate()
