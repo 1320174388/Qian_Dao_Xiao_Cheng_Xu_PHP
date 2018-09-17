@@ -95,7 +95,7 @@ class WxSLoginDao implements WxSLoginInterface
             return returnData('success',$uniqidIndex);
         }
         // 返回错误数据
-        return returnData('error','登录失败');
+        return returnData('error','密码输入错误');
     }
 
     /**
