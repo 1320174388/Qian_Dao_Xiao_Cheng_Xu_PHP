@@ -23,7 +23,7 @@ class LoginCodeValidate extends Validate
     protected $rule =   [
         'UserToken'  => 'require|min:32|max:32',
         'UserPhone'  => 'require|number|min:11|max:11',
-        'UserFormid' => 'require|number',
+        'UserFormid' => 'require',
     ];
 
     /**
@@ -40,6 +40,5 @@ class LoginCodeValidate extends Validate
         'UserPhone.max'        => '请正确输入手机号',
         'UserPhone.number'     => '请正确输入手机号',
         'UserFormid.require'   => '请正确发送formId',
-        'UserFormid.number'    => '请正确发送formId',
     ];
 }
